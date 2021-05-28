@@ -39,7 +39,8 @@ ARG ODFE_VERSION=1.13.2
 RUN [[ "${TARGETARCH}" == "amd64" ]] && export ARCH=x64 || export ARCH=arm64 && curl https://d3g5vo6xdbdb9a.cloudfront.net/tarball/opendistroforelasticsearch-kibana/opendistroforelasticsearch-kibana-${ODFE_VERSION}-linux-$ARCH.tar.gz -o /tmp/kibana/odfe.tgz \
     && tar -xzf /tmp/kibana/odfe.tgz -C /usr/share/kibana --strip-components=1 \
     && find /usr/share/kibana -gid 0 -and -not -perm /g+w -exec chmod g+w {} \; \
-    && echo $'= CentOS Licensing and Source Code =\n\nThis image is built from CentOS and DockerHub\'s official build of CentOS (https://hub.docker.com/_/centos). Their image contains various Open Source licensed packages and their DockerHub home page provides information on licensing.\n\nYou can list the packages installed in the image by running \'rpm -qa\', and you can download the source code for the packages CentOS and DockerHub provide via the yumdownloader tool.' > /root/CENTOS_LICENSING.txt
+    && echo $'= CentOS Licensing and Source Code =\n\nThis image is built from CentOS and DockerHub\'s official build of CentOS (https://hub.docker.com/_/centos). Their image contains various Open Source licensed packages and their DockerHub home page provides information on licensing.\n\nYou can list the packages installed in the image by running \'rpm -qa\', and you can download the source code for the packages CentOS and DockerHub provide via the yumdownloader tool.' > /root/CENTOS_LICENSING.txt \
+    && rm -rf /tmp/kibana
 
 COPY --chown=1000:0 kibana.yml /usr/share/kibana/config/kibana.yml
 COPY --chown=1000:0 kibana.sh /usr/local/bin/kibana-docker
